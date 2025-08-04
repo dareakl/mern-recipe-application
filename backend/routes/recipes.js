@@ -1,11 +1,12 @@
 import express from "express";
 import Recipe from "../models/Recipe.js";
-import Recipe from "../models/Recipe.js";
+//import Recipe from "../models/Recipe.js";
+import { protect } from "../middleware/auth.js";
 
 const router = express.Router();
 
 //Create recipe
-router.post("/", async (req, res) => {
+router.post("/", protect, async (req, res) => {
   const { title, ingredients, instructions, category, photoUrl, cookingTime } =
     req.body;
 
@@ -61,7 +62,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //Update a recipe
-router.put("/id", async (req, res) => {
+router.put("/id", protect, async (req, res) => {
   const { title, ingredients, instructions, category, photoUrl, cookingTime } =
     req.body;
 
@@ -85,7 +86,7 @@ router.put("/id", async (req, res) => {
 });
 
 //Delete recipe
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", protect, async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.id);
     if (!recipe) {

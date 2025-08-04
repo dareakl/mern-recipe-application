@@ -1,6 +1,4 @@
-import { request } from "express";
 import mongoose from "mongoose";
-import User from "./User";
 
 const recipeSchema = new mongoose.Schema(
   {
