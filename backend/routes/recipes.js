@@ -71,6 +71,10 @@ router.put("/id", protect, async (req, res) => {
     if (!recipe) {
       return res.status(404).json({ message: "REcipe Not Found" });
     }
+    if (recipe.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
     recipe.title = title || recipe.title;
     recipe.ingredients = ingredients || recipe.ingredients;
     recipe.instructions = instructions || recipe.instructions;
@@ -91,6 +95,9 @@ router.delete("/:id", protect, async (req, res) => {
     const recipe = await Recipe.findById(req.params.id);
     if (!recipe) {
       return res.status(404).json({ message: "REcipe Not Found" });
+    }
+    if (recipe.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(401).json({ message: "Not authorized" });
     }
     await recipe.deleteOne();
     res.json({ message: "Recipe Deleted" });
