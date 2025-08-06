@@ -42,7 +42,6 @@ router.post("/login", async (req, res) => {
 
     // ✅ Fix: Proper query
     const user = await User.findOne({ email });
-    console.log("user email", user);
 
     if (!user || !(await user.matchPassword(password))) {
       console.log("Invalid");
@@ -57,7 +56,6 @@ router.post("/login", async (req, res) => {
       token,
     });
   } catch (err) {
-    console.error("LOGIN ERROR:", err); // Log the actual error
     res.status(500).json({ message: "Server error" });
   }
 });
